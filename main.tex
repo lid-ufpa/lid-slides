@@ -15,9 +15,9 @@
 \usepackage{svg}
 \usepackage{tablefootnote}
 
-\title{Título da apresentação}
-\authorone{John Doe}
-\authortwo{Jane Doe}
+\title[Título curto]{Título da apresentação}
+\authorone[Doe]{John Doe}
+\authortwo[Doe]{Jane Doe}
 % \authorthree{Johnie Bloggs}
 % \authorfour{Janie Bloggs}
 % \authorfive{Poe Stiles}
@@ -25,10 +25,28 @@
 
 \begin{document}
 
-\titlepage
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Agenda}
+    \tableofcontents
+\end{frame}
+
+\section{Introdução}
 
 \begin{frame}{Título do slide}{Subtítulo do slide}
 This is some text in the first frame. This is some text in the first frame. This is some text in the first frame.
 \end{frame}
+
+\section{Conclusão}
+
+
+\begin{frame}{Título do slide}{Subtítulo do slide}
+This is some text in the first frame. This is some text in the first frame. This is some text in the first frame.
+\end{frame}
+
+\section{Conclusão}
+
+\frame{\titlepage}
 
 \end{document}

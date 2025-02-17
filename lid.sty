@@ -13,18 +13,25 @@
 \RequirePackage{montserrat} % Use Montserrat font
 \RequirePackage[T1]{fontenc} % Ensure proper font encoding
 
-% Define author variables
-\newcommand{\authorone}[1]{\def\authoronecontent{#1}}
-\newcommand{\authortwo}[1]{\def\authortwocontent{#1}}
-\newcommand{\authorthree}[1]{\def\authorthreecontent{#1}}
-\newcommand{\authorfour}[1]{\def\authorfourcontent{#1}}
-\newcommand{\authorfive}[1]{\def\authorfivecontent{#1}}
+% Define author variables with optional short names
+\newcommand{\authorone}[2][]{\def\authoroneshort{#1}\def\authoronecontent{#2}}
+\newcommand{\authortwo}[2][]{\def\authortwoshort{#1}\def\authortwocontent{#2}}
+\newcommand{\authorthree}[2][]{\def\authorthreeshort{#1}\def\authorthreecontent{#2}}
+\newcommand{\authorfour}[2][]{\def\authorfourshort{#1}\def\authorfourcontent{#2}}
+\newcommand{\authorfive}[2][]{\def\authorfiveshort{#1}\def\authorfivecontent{#2}}
 
-\def\authoronecontent{}
-\def\authortwocontent{}
-\def\authorthreecontent{}
-\def\authorfourcontent{}
-\def\authorfivecontent{}
+% Initialize author variables
+\def\authoronecontent{} \def\authoroneshort{}
+\def\authortwocontent{} \def\authortwoshort{}
+\def\authorthreecontent{} \def\authorthreeshort{}
+\def\authorfourcontent{} \def\authorfourshort{}
+\def\authorfivecontent{} \def\authorfiveshort{}
+
+\setbeamercolor{item}{fg=lid-main}
+\setbeamertemplate{itemize item}{\color{lid-main}$\blacksquare$}
+\setbeamertemplate{itemize subitem}{\color{lid-main}$\bullet$}
+\setbeamertemplate{caption}[numbered]
+\useinnertheme{circles}
 
 \setbeamertemplate{title page}{
     \begin{tikzpicture}[remember picture, overlay]
@@ -37,9 +44,9 @@
             {\includegraphics[width=4cm]{./assets/logo-lid.pdf}};
     \end{tikzpicture}
 
-    \begin{flushleft} % Left-align title and author
-        \vspace{-2cm} % Remove space between logos and text
-        
+    \vspace{4cm} % Remove space between logos and text
+
+    \begin{flushleft} % Left-align title and author        
         % Title block with word wrapping upwards
         \begin{minipage}[t]{\textwidth} % Title expands upwards
             {\color{lid-main} \usebeamerfont{title} \bfseries \raggedright \inserttitle}
@@ -67,10 +74,49 @@
     \end{flushleft}
 }
 
-% Modify frame title background and subtitle style
-\setbeamercolor{frametitle}{bg=lid-main, fg=white}
-% \setbeamerfont{frametitle}{series=mdseries}
-% \setbeamerfont{framesubtitle}{series=lseries}
+% Modify frame title background and subtitle style with logo
+\setbeamercolor{frametitle}{bg=lid-main, fg=lid-terciary}
+\setbeamertemplate{frametitle}{
+    \ifx\insertframesubtitle\empty
+        \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
+            \begin{minipage}[c]{0.80\textwidth} % Title area (centered vertically)
+                \vspace{0.5em} % Adjust as needed for fine-tuning
+                {\color{white} \bfseries \insertframetitle}
+                \vspace{0.5em}
+            \end{minipage}%
+            \begin{minipage}[c]{0.20\textwidth} % Logo area (aligned right)
+                \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}
+            \end{minipage}
+        \end{beamercolorbox}
+    \else
+        \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
+            \begin{minipage}[b]{0.80\textwidth} % Title and subtitle area (bottom-aligned)
+                {\color{white} \bfseries \insertframetitle}\\
+                {\color{white} \small \insertframesubtitle}
+            \end{minipage}%
+            \begin{minipage}[b]{0.20\textwidth} % Logo area (aligned right)
+                \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}
+            \end{minipage}
+        \end{beamercolorbox}
+    \fi
+}
+
+% Define footline template with lid-main background and white text
+\setbeamercolor{footline}{bg=lid-main, fg=white}
+\setbeamertemplate{footline}{
+    \ifnum\value{framenumber}>1 % Ignore footline on title page
+        \begin{beamercolorbox}[wd=\paperwidth, sep=.5em]{footline}
+            \hspace{.5em}
+            \color{white} \authoroneshort
+            \ifx\authortwoshort\empty\else, \authortwoshort\fi
+            \ifx\authorthreeshort\empty\else, \authorthreeshort\fi
+            \ifx\authorfourshort\empty\else, \authorfourshort\fi
+            \ifx\authorfiveshort\empty\else, \authorfiveshort\fi
+            \hfill \textbf{\color{white} \insertshorttitle} \hfill \color{white} \insertdate \hfill \color{white} \insertframenumber{} / \inserttotalframenumber
+            \hspace{.5em}
+        \end{beamercolorbox}
+    \fi
+}
 
 \setbeamertemplate{navigation symbols}{}
 
