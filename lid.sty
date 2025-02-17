@@ -1,0 +1,77 @@
+\ProvidesPackage{lid}
+
+\usetheme{Madrid}
+
+% Define Colors
+\definecolor{lid-main}{RGB}{6,8,29}   % #06081D
+\definecolor{lid-secondary}{RGB}{59,167,203} % #3BA7CB
+\definecolor{lid-terciary}{RGB}{247,255,255} % #F7FFFF
+
+% \RequirePackage{beamer}
+\RequirePackage{graphicx} % Required for images
+\RequirePackage{tikz}     % Required for positioning elements
+\RequirePackage{montserrat} % Use Montserrat font
+\RequirePackage[T1]{fontenc} % Ensure proper font encoding
+
+% Define author variables
+\newcommand{\authorone}[1]{\def\authoronecontent{#1}}
+\newcommand{\authortwo}[1]{\def\authortwocontent{#1}}
+\newcommand{\authorthree}[1]{\def\authorthreecontent{#1}}
+\newcommand{\authorfour}[1]{\def\authorfourcontent{#1}}
+\newcommand{\authorfive}[1]{\def\authorfivecontent{#1}}
+
+\def\authoronecontent{}
+\def\authortwocontent{}
+\def\authorthreecontent{}
+\def\authorfourcontent{}
+\def\authorfivecontent{}
+
+\setbeamertemplate{title page}{
+    \begin{tikzpicture}[remember picture, overlay]
+        % UFPA Logo (left corner)
+        \node[anchor=north west, xshift=18pt, yshift=-30pt] at (current page.north west) 
+            {\includegraphics[width=2cm]{./assets/logo-ufpa.pdf}};
+
+        % LID Logo (right corner)
+        \node[anchor=north east, xshift=-30pt, yshift=-35pt] at (current page.north east) 
+            {\includegraphics[width=4cm]{./assets/logo-lid.pdf}};
+    \end{tikzpicture}
+
+    \begin{flushleft} % Left-align title and author
+        \vspace{-2cm} % Remove space between logos and text
+        
+        % Title block with word wrapping upwards
+        \begin{minipage}[t]{\textwidth} % Title expands upwards
+            {\color{lid-main} \usebeamerfont{title} \bfseries \raggedright \inserttitle}
+        \end{minipage}
+
+        \vspace{0.25cm} % Padding
+        
+        % Horizontal Line Divider (Fixed Position)
+        \begin{tikzpicture}
+            \draw[line width=2pt, color=lid-secondary] (0,0) -- (\textwidth,0); 
+        \end{tikzpicture}
+
+        \vspace{0.25cm} % Padding
+        
+        % Author block with word wrapping downwards and padding from bottom
+        \begin{minipage}[b]{\textwidth} % Author expands downwards
+            {\color{lid-main} \usebeamerfont{author} \raggedright
+            \ifx\authoronecontent\empty\else \authoronecontent\\ \fi
+            \ifx\authortwocontent\empty\else \authortwocontent\\ \fi
+            \ifx\authorthreecontent\empty\else \authorthreecontent\\ \fi
+            \ifx\authorfourcontent\empty\else \authorfourcontent\\ \fi
+            \ifx\authorfivecontent\empty\else \authorfivecontent\\ \fi}
+        \end{minipage}
+        \vspace{0.5cm} % Padding
+    \end{flushleft}
+}
+
+% Modify frame title background and subtitle style
+\setbeamercolor{frametitle}{bg=lid-main, fg=white}
+% \setbeamerfont{frametitle}{series=mdseries}
+% \setbeamerfont{framesubtitle}{series=lseries}
+
+\setbeamertemplate{navigation symbols}{}
+
+\endinput
