@@ -12,6 +12,7 @@
 \RequirePackage{tikz}     % Required for positioning elements
 \RequirePackage{montserrat} % Use Montserrat font
 \RequirePackage[T1]{fontenc} % Ensure proper font encoding
+\RequirePackage[none]{hyphenat} % Ensure hyphenation is disabled globally
 
 % Define author variables with optional short names
 \newcommand{\authorone}[2][]{\def\authoroneshort{#1}\def\authoronecontent{#2}}
@@ -28,10 +29,10 @@
 \def\authorfivecontent{} \def\authorfiveshort{}
 
 \setbeamercolor{item}{fg=lid-main}
-\setbeamertemplate{itemize item}{\color{lid-main}$\blacksquare$}
-\setbeamertemplate{itemize subitem}{\color{lid-main}$\bullet$}
 \setbeamertemplate{caption}[numbered]
 \useinnertheme{circles}
+\setbeamertemplate{itemize item}{\color{lid-main}$\blacksquare$}
+\setbeamertemplate{itemize subitem}{\color{lid-main}$\bullet$}
 
 \setbeamertemplate{title page}{
     \begin{tikzpicture}[remember picture, overlay]
@@ -49,7 +50,8 @@
     \begin{flushleft} % Left-align title and author        
         % Title block with word wrapping upwards
         \begin{minipage}[t]{\textwidth} % Title expands upwards
-            {\color{lid-main} \usebeamerfont{title} \bfseries \raggedright \inserttitle}
+            {\color{lid-main} \usebeamerfont{title} \bfseries \raggedright 
+            \nohyphens{\inserttitle}}
         \end{minipage}
 
         \vspace{0.25cm} % Padding
@@ -81,7 +83,7 @@
         \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
             \begin{minipage}[c]{0.80\textwidth} % Title area (centered vertically)
                 \vspace{0.5em} % Adjust as needed for fine-tuning
-                {\color{white} \bfseries \insertframetitle}
+                {\color{white} \bfseries \large \insertframetitle}
                 \vspace{0.5em}
             \end{minipage}%
             \begin{minipage}[c]{0.20\textwidth} % Logo area (aligned right)
@@ -91,7 +93,7 @@
     \else
         \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
             \begin{minipage}[b]{0.80\textwidth} % Title and subtitle area (bottom-aligned)
-                {\color{white} \bfseries \insertframetitle}\\
+                {\color{white} \bfseries \large \insertframetitle}\\
                 {\color{white} \small \insertframesubtitle}
             \end{minipage}%
             \begin{minipage}[b]{0.20\textwidth} % Logo area (aligned right)
