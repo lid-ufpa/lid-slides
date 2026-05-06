@@ -1,0 +1,34 @@
+% Slide simples
+\begin{frame}{Título do slide}{Subtítulo do slide}
+    \lipsum[1]
+\end{frame}
+
+% Exemplo: slide de duas colunas
+\begin{frame}{Duas Colunas}{}
+    \begin{lidtwocol}
+        \textbf{Coluna Esquerda}
+        \begin{itemize}
+            \item Item A
+            \item Item B
+            \item Item C
+        \end{itemize}
+    \lidnextcol
+        \textbf{Coluna Direita}
+        \begin{itemize}
+            \item Item D
+            \item Item E
+            \item Item F
+        \end{itemize}
+    \end{lidtwocol}
+\end{frame}
+
+% Exemplo: slide com caixa de destaque
+\begin{frame}{Destaque}{}
+    Texto normal introduzindo o contexto da informação.
+
+    \vspace{0.5em}
+    \lidhighlight{Este é um resultado ou frase importante que merece destaque visual dentro do slide.}
+    \vspace{0.5em}
+
+    Texto de continuação após o destaque.
+\end{frame}
