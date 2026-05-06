@@ -9,10 +9,14 @@
 
 % \RequirePackage{beamer}
 \RequirePackage{graphicx} % Required for images
+\RequirePackage{adjustbox} % Required for max width/height image scaling
 \RequirePackage{tikz}     % Required for positioning elements
 \RequirePackage{montserrat} % Use Montserrat font
 \RequirePackage[T1]{fontenc} % Ensure proper font encoding
 \RequirePackage[none]{hyphenat} % Ensure hyphenation is disabled globally
+\RequirePackage{etoolbox}   % Required for \ifblank
+\RequirePackage{xargs}     % Required for multiple optional arguments
+\RequirePackage{fontawesome5} % Required for icons (\faLinkedin, \faGithub, etc.)
 
 % Define author variables with optional short names
 \newcommand{\authorone}[2][]{\def\authoroneshort{#1}\def\authoronecontent{#2}}
@@ -37,34 +41,32 @@
 \setbeamertemplate{title page}{
     \begin{tikzpicture}[remember picture, overlay]
         % UFPA Logo (left corner)
-        \node[anchor=north west, xshift=5pt, yshift=-30pt] at (current page.north west) 
+        \node[anchor=north west, xshift=5pt, yshift=-30pt] at (current page.north west)
             {\includegraphics[width=2cm]{./assets/logo-ufpa.pdf}};
 
         % LID Logo (right corner)
-        \node[anchor=north east, xshift=-10pt, yshift=-35pt] at (current page.north east) 
+        \node[anchor=north east, xshift=-10pt, yshift=-35pt] at (current page.north east)
             {\includegraphics[width=4cm]{./assets/logo-lid.pdf}};
     \end{tikzpicture}
 
-    \vspace{4cm} % Remove space between logos and text
+    \vspace{4cm}
 
-    \begin{flushleft} % Left-align title and author        
-        % Title block with word wrapping upwards
-        \begin{minipage}[t]{\textwidth} % Title expands upwards
-            {\color{lid-main} \usebeamerfont{title} \bfseries \raggedright 
-            \nohyphens{\inserttitle}}
+    \begin{flushleft}
+        \begin{minipage}[t]{\textwidth}
+            {\color{lid-main} \usebeamerfont{title} \bfseries \raggedright
+            \inserttitle}
         \end{minipage}
 
-        \vspace{0.25cm} % Padding
-        
-        % Horizontal Line Divider (Fixed Position)
+        \vspace{0.25cm}
+
         \begin{tikzpicture}
-            \draw[line width=2pt, color=lid-secondary] (0,0) -- (\textwidth,0); 
+            \draw[line width=2pt, color=lid-secondary] (0,0) -- (\textwidth,0);
         \end{tikzpicture}
 
-        \vspace{0.25cm} % Padding
-        
-        % Author block with word wrapping downwards and padding from bottom
-        \begin{minipage}[b]{\textwidth} % Author expands downwards
+        \vspace{0.25cm}
+
+        % Task 3: Authors + date
+        \begin{minipage}[b]{\textwidth}
             {\color{lid-main} \usebeamerfont{author} \raggedright
             \ifx\authoronecontent\empty\else \authoronecontent\\ \fi
             \ifx\authortwocontent\empty\else \authortwocontent\\ \fi
@@ -72,7 +74,11 @@
             \ifx\authorfourcontent\empty\else \authorfourcontent\\ \fi
             \ifx\authorfivecontent\empty\else \authorfivecontent\\ \fi}
         \end{minipage}
-        \vspace{0.5cm} % Padding
+
+        \vspace{0.25cm}
+
+        {\color{lid-secondary} \small \insertdate}
+        \vspace{0.5cm}
     \end{flushleft}
 }
 
@@ -81,32 +87,38 @@
 \setbeamertemplate{frametitle}{
     \ifx\insertframesubtitle\empty
         \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
-            \begin{minipage}[c]{0.80\textwidth} % Title area (centered vertically)
-                \vspace{0.5em} % Adjust as needed for fine-tuning
+            \begin{minipage}[c]{0.80\textwidth}
+                \vspace{0.5em}
                 {\color{white} \bfseries \large \insertframetitle}
                 \vspace{0.5em}
             \end{minipage}%
-            \begin{minipage}[c]{0.20\textwidth} % Logo area (aligned right)
+            \begin{minipage}[c]{0.20\textwidth}
                 \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}
             \end{minipage}
         \end{beamercolorbox}
     \else
         \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
-            \begin{minipage}[b]{0.80\textwidth} % Title and subtitle area (bottom-aligned)
+            \begin{minipage}[b]{0.80\textwidth}
                 {\color{white} \bfseries \large \insertframetitle}\\
                 {\color{white} \small \insertframesubtitle}
             \end{minipage}%
-            \begin{minipage}[b]{0.20\textwidth} % Logo area (aligned right)
+            \begin{minipage}[b]{0.20\textwidth}
                 \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}
             \end{minipage}
         \end{beamercolorbox}
     \fi
 }
 
-% Define footline template with lid-main background and white text
+% Task 1: Footline with fixed progress bar
 \setbeamercolor{footline}{bg=lid-main, fg=white}
 \setbeamertemplate{footline}{
-    \ifnum\value{framenumber}>1 % Ignore footline on title page
+    \ifnum\value{framenumber}>1
+        % Progress bar via \rule — avoids pgfmath/paperwidth conflict
+        \pgfmathsetmacro{\progressratio}{(\insertframenumber - 1) / (\inserttotalframenumber - 1)}
+        \begin{beamercolorbox}[wd=\paperwidth, ht=3pt, dp=0pt]{footline}
+            \textcolor{lid-secondary}{\rule{\progressratio\paperwidth}{3pt}}
+        \end{beamercolorbox}
+        % Footline content
         \begin{beamercolorbox}[wd=\paperwidth, sep=.5em]{footline}
             \hspace{.5em}
             \color{white} \authoroneshort
@@ -121,5 +133,122 @@
 }
 
 \setbeamertemplate{navigation symbols}{}
+
+% Task 2: Table of contents colors and spacing
+\setbeamercolor{section in toc}{fg=lid-main}
+\setbeamercolor{subsection in toc}{fg=lid-secondary}
+\setbeamerfont{section in toc}{size=\normalsize}
+
+% Section divider slide
+\AtBeginSection[]{
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            \fill[lid-main] (current page.south west) rectangle (current page.north east);
+            \node[anchor=center] at (current page.center) {
+                \color{white} \usebeamerfont{title} \bfseries \insertsectionhead
+            };
+            \draw[line width=2pt, color=lid-secondary]
+                ([xshift=2cm, yshift=-0.4cm]current page.center)
+                -- ([xshift=-2cm, yshift=-0.4cm]current page.center);
+        \end{tikzpicture}
+    \end{frame}
+}
+
+% Task 4: Final/thank-you slide
+% Usage: \lidthanks[Mensagem][contato/links][frase]
+% Todos os argumentos são opcionais.
+% Exemplos:
+%   \lidthanks
+%   \lidthanks[Obrigado!][\faEnvelope\ email@lab.com]
+%   \lidthanks[Obrigado!][\faEnvelope\ email@lab.com \\ \faLinkedin\ linkedin.com/in/user \\ \faGithub\ github.com/user]
+%   \lidthanks[Obrigado!][\faGithub\ github.com/user][Acesse nosso repositório]
+\newcommandx{\lidthanks}[3][1=Obrigado!, 2=, 3=]{%
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            \fill[lid-main] (current page.south west) rectangle (current page.north east);
+            \node[anchor=north east, xshift=-15pt, yshift=-15pt] at (current page.north east)
+                {\includegraphics[width=3cm]{./assets/logo-lid.pdf}};
+            \node[anchor=center, yshift=0.8cm] at (current page.center) {
+                \color{white} \usebeamerfont{title} \bfseries #1
+            };
+            \draw[line width=2pt, color=lid-secondary]
+                ([xshift=2cm, yshift=0.3cm]current page.center)
+                -- ([xshift=-2cm, yshift=0.3cm]current page.center);
+            \node[anchor=north, yshift=-0.1cm] at (current page.center) {
+                \begin{minipage}{0.75\paperwidth}
+                    \centering
+                    \ifblank{#2}{}{\textcolor{lid-secondary}{\small #2}\\[0.3cm]}%
+                    \ifblank{#3}{}{\textcolor{white}{\footnotesize \textit{#3}}}%
+                \end{minipage}
+            };
+        \end{tikzpicture}
+    \end{frame}
+}
+
+% Task 5: Two-column layout
+% Usage:
+%   \begin{lidtwocol}
+%       Left content
+%   \lidnextcol
+%       Right content
+%   \end{lidtwocol}
+%
+% Optional argument sets left column width ratio (default 0.48)
+\newenvironment{lidtwocol}[1][0.48]{%
+    \begin{columns}[T, onlytextwidth]%
+    \begin{column}{#1\textwidth}%
+}{%
+    \end{column}%
+    \end{columns}%
+}
+\newcommand{\lidnextcol}[1][0.48]{%
+    \end{column}%
+    \begin{column}{#1\textwidth}%
+}
+
+% Task 6: Highlight box
+% Usage: \lidhighlight{Texto importante}
+\newcommand{\lidhighlight}[1]{%
+    \begin{tikzpicture}
+        \node[
+            fill=lid-secondary!15,
+            draw=lid-secondary,
+            line width=1pt,
+            rounded corners=4pt,
+            inner sep=8pt,
+            text width=\linewidth-20pt
+        ] {\color{lid-main} #1};
+    \end{tikzpicture}
+}
+
+% Task 7: Full-screen image slide
+% Usage: \lidfullimage[escala]{caminho/imagem.pdf}{Legenda}
+% Escala vai de 0 a 1 (padrão: 1.0 = tela cheia)
+% Omit caption for no caption bar: \lidfullimage{img.pdf}{}
+\newlength{\lidcaptionheight}
+\setlength{\lidcaptionheight}{1.2cm}
+\newlength{\lidimgmaxh}
+\newcommand{\lidfullimage}[3][1.0]{%
+    \ifx&#3&\else\refstepcounter{figure}\fi%
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            \ifx&#3&
+                \node[anchor=center] at (current page.center)
+                    {\adjustbox{max width=#1\paperwidth, max height=#1\paperheight}{\includegraphics{#2}}};
+            \else
+                \setlength{\lidimgmaxh}{\paperheight}%
+                \addtolength{\lidimgmaxh}{-\lidcaptionheight}%
+                \node[anchor=south] at ([yshift=\lidcaptionheight]current page.south)
+                    {\adjustbox{max width=#1\paperwidth, max height=#1\lidimgmaxh}{\includegraphics{#2}}};
+                \fill[lid-main]
+                    (current page.south west)
+                    rectangle ([yshift=\lidcaptionheight]current page.south west -| current page.south east);
+                \node[anchor=south, yshift=0.3cm] at (current page.south) {
+                    \color{white} \small \figurename~\thefigure: #3
+                };
+            \fi
+        \end{tikzpicture}
+    \end{frame}
+}
 
 \endinput
