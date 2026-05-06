@@ -2,53 +2,41 @@
 \usepackage{lid}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
-\usepackage{graphicx}  
 \usepackage{float}
-\usepackage{hyperref}  
-\usepackage{xcolor}  
-\usepackage{pgf-pie}  
-\usepackage{tikz}  
+\usepackage{hyperref}
+\usepackage{pgf-pie}
 \usepackage{subcaption}
-\usepackage{multicol}  
+\usepackage{multicol}
 \usepackage[justification=centering]{caption}
 \usepackage{csquotes}
-\usepackage{svg}
 \usepackage{tablefootnote}
 \usepackage{lipsum}
 
 \title[Título curto]{Título da apresentação}
 \authorone[Doe]{John Doe}
 \authortwo[Doe]{Jane Doe}
-% \authorthree{Johnie Bloggs}
-% \authorfour{Janie Bloggs}
-% \authorfive{Poe Stiles}
+% \authorthree[Bloggs]{Johnie Bloggs}
+% \authorfour[Bloggs]{Janie Bloggs}
+% \authorfive[Stiles]{Poe Stiles}
 \date{\today}
 
 \begin{document}
 
 \frame{\titlepage}
 
-\begin{frame}
-    \frametitle{Agenda}
+\begin{frame}{Agenda}
     \tableofcontents
 \end{frame}
 
 \section{Introdução}
-
-\begin{frame}{Título do slide}{Subtítulo do slide}
-\lipsum[1]
-\end{frame}
+\input{sections/introducao}
 
 \section{Desenvolvimento}
-
-\begin{frame}{Título do slide}{Subtítulo do slide}
-\lipsum[1]
-\end{frame}
+\input{sections/desenvolvimento}
 
 \section{Conclusão}
+\input{sections/conclusao}
 
-\begin{frame}{Título do slide}{Subtítulo do slide}
-\lipsum[1]
-\end{frame}
+\lidthanks[Obrigado!][\faEnvelope\ john.doe@lidi.ufpa.br \\ \faLinkedin\ linkedin.com/in/johndoe \\ \faGithub\ github.com/johndoe]
 
 \end{document}
