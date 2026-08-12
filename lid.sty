@@ -86,6 +86,7 @@
 \setbeamercolor{frametitle}{bg=lid-main, fg=lid-terciary}
 \setbeamertemplate{frametitle}{
     \ifx\insertframesubtitle\empty
+        \vspace{-1pt}
         \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
             \begin{minipage}[c]{0.80\textwidth}
                 \vspace{0.5em}
@@ -97,6 +98,7 @@
             \end{minipage}
         \end{beamercolorbox}
     \else
+        \vspace{-1pt}
         \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
             \begin{minipage}[b]{0.80\textwidth}
                 {\color{white} \bfseries \large \insertframetitle}\\
