@@ -2,51 +2,72 @@
 
 \usetheme{Madrid}
 
-% Define Colors
-\definecolor{lid-main}{RGB}{6,8,29}   % #06081D
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CORES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{lid-main}{RGB}{6,8,29}          % #06081D
 \definecolor{lid-secondary}{RGB}{59,167,203} % #3BA7CB
 \definecolor{lid-terciary}{RGB}{247,255,255} % #F7FFFF
+\definecolor{lid-alert}{RGB}{200,40,40}      % vermelho, ajuste ao gosto
 
-% \RequirePackage{beamer}
-\RequirePackage{graphicx} % Required for images
-\RequirePackage{adjustbox} % Required for max width/height image scaling
-\RequirePackage{tikz}     % Required for positioning elements
-\RequirePackage{montserrat} % Use Montserrat font
-\RequirePackage[T1]{fontenc} % Ensure proper font encoding
-\RequirePackage[none]{hyphenat} % Ensure hyphenation is disabled globally
-\RequirePackage{etoolbox}   % Required for \ifblank
-\RequirePackage{xargs}     % Required for multiple optional arguments
-\RequirePackage{fontawesome5} % Required for icons (\faLinkedin, \faGithub, etc.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACOTES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{graphicx}    % Imagens
+\RequirePackage{adjustbox}   % Escala de imagens
+\RequirePackage{tikz}        % Posicionamento de elementos
+\RequirePackage{booktabs}
+\RequirePackage{montserrat}  % Fonte Montserrat
+\RequirePackage[T1]{fontenc}
+\RequirePackage{esvect}       % Vetores (\vv{})
+\RequirePackage{etoolbox}    % \ifblank
+\RequirePackage{xargs}       % Múltiplos argumentos opcionais
+\RequirePackage{fontawesome5}% Ícones
+\RequirePackage[most]{tcolorbox}
+\tcbuselibrary{skins}
 
-% Define author variables with optional short names
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FONTES GLOBAIS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamerfont{normal text}{family=\sffamily}
+\setbeamerfont{title}{family=\sffamily}
+\setbeamerfont{frametitle}{family=\sffamily}
+\setbeamerfont{author}{family=\sffamily}
+\setbeamerfont{date}{family=\sffamily}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% VARIÁVEIS DE AUTORES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\authorone}[2][]{\def\authoroneshort{#1}\def\authoronecontent{#2}}
 \newcommand{\authortwo}[2][]{\def\authortwoshort{#1}\def\authortwocontent{#2}}
 \newcommand{\authorthree}[2][]{\def\authorthreeshort{#1}\def\authorthreecontent{#2}}
 \newcommand{\authorfour}[2][]{\def\authorfourshort{#1}\def\authorfourcontent{#2}}
 \newcommand{\authorfive}[2][]{\def\authorfiveshort{#1}\def\authorfivecontent{#2}}
 
-% Initialize author variables
 \def\authoronecontent{} \def\authoroneshort{}
 \def\authortwocontent{} \def\authortwoshort{}
 \def\authorthreecontent{} \def\authorthreeshort{}
 \def\authorfourcontent{} \def\authorfourshort{}
 \def\authorfivecontent{} \def\authorfiveshort{}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ITEMIZE / INNERTHEME
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setbeamercolor{item}{fg=lid-main}
 \setbeamertemplate{caption}[numbered]
 \useinnertheme{circles}
 \setbeamertemplate{itemize item}{\color{lid-main}$\blacksquare$}
 \setbeamertemplate{itemize subitem}{\color{lid-main}$\bullet$}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TITLE PAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setbeamertemplate{title page}{
     \begin{tikzpicture}[remember picture, overlay]
-        % UFPA Logo (left corner)
         \node[anchor=north west, xshift=5pt, yshift=-30pt] at (current page.north west)
-            {\includegraphics[width=2cm]{./assets/logo-ufpa.pdf}};
-
-        % LID Logo (right corner)
-        \node[anchor=north east, xshift=-10pt, yshift=-35pt] at (current page.north east)
-            {\includegraphics[width=4cm]{./assets/logo-lid.pdf}};
+        {\includegraphics[width=2cm]{./assets/logo-ufpa.pdf}};
+        \node[anchor=north east, xshift=-10pt, yshift=-40pt] at (current page.north east)
+        {\includegraphics[width=4cm]{./assets/logo-lid.pdf}};
     \end{tikzpicture}
 
     \vspace{4cm}
@@ -54,7 +75,7 @@
     \begin{flushleft}
         \begin{minipage}[t]{\textwidth}
             {\color{lid-main} \usebeamerfont{title} \bfseries \raggedright
-            \inserttitle}
+                \inserttitle}
         \end{minipage}
 
         \vspace{0.25cm}
@@ -65,83 +86,179 @@
 
         \vspace{0.25cm}
 
-        % Task 3: Authors + date
         \begin{minipage}[b]{\textwidth}
             {\color{lid-main} \usebeamerfont{author} \raggedright
-            \ifx\authoronecontent\empty\else \authoronecontent\\ \fi
-            \ifx\authortwocontent\empty\else \authortwocontent\\ \fi
-            \ifx\authorthreecontent\empty\else \authorthreecontent\\ \fi
-            \ifx\authorfourcontent\empty\else \authorfourcontent\\ \fi
-            \ifx\authorfivecontent\empty\else \authorfivecontent\\ \fi}
+                \ifx\authoronecontent\empty\else \authoronecontent\\ \fi
+                \ifx\authortwocontent\empty\else \authortwocontent\\ \fi
+                \ifx\authorthreecontent\empty\else \authorthreecontent\\ \fi
+                \ifx\authorfourcontent\empty\else \authorfourcontent\\ \fi
+                \ifx\authorfivecontent\empty\else \authorfivecontent\\ \fi}
         \end{minipage}
-
-        \vspace{0.25cm}
 
         {\color{lid-secondary} \small \insertdate}
         \vspace{0.5cm}
     \end{flushleft}
 }
 
-% Modify frame title background and subtitle style with logo
-\setbeamercolor{frametitle}{bg=lid-main, fg=lid-terciary}
-\setbeamertemplate{frametitle}{
-    \ifx\insertframesubtitle\empty
-        \vspace{-1pt}
-        \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
-            \begin{minipage}[c]{0.80\textwidth}
-                \vspace{0.5em}
-                {\color{white} \bfseries \large \insertframetitle}
-                \vspace{0.5em}
-            \end{minipage}%
-            \begin{minipage}[c]{0.20\textwidth}
-                \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}
-            \end{minipage}
-        \end{beamercolorbox}
-    \else
-        \vspace{-1pt}
-        \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
-            \begin{minipage}[b]{0.80\textwidth}
-                {\color{white} \bfseries \large \insertframetitle}\\
-                {\color{white} \small \insertframesubtitle}
-            \end{minipage}%
-            \begin{minipage}[b]{0.20\textwidth}
-                \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}
-            \end{minipage}
-        \end{beamercolorbox}
-    \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FRAMETITLE — dois estilos alternáveis: dark / light
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---- Estilo DARK (fundo lid-main, texto branco) ----
+\newcommand{\lidframetitledark}{%
+    \setbeamercolor{frametitle}{bg=lid-main, fg=lid-terciary}
+    \setbeamertemplate{frametitle}{
+        \ifx\insertframesubtitle\empty
+            \vspace{-1pt}
+            \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
+                \begin{minipage}[c]{0.80\textwidth}
+                    \vspace{0.5em}
+                    {\color{white} \bfseries \large \insertframetitle}
+                    \vspace{0.5em}
+                \end{minipage}%
+                \begin{minipage}[c]{0.20\textwidth}
+                    \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}\hspace*{-0.2cm}
+                \end{minipage}
+            \end{beamercolorbox}
+        \else
+            \vspace{-1pt}
+            \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
+                \raisebox{5pt}{%
+                    \begin{minipage}[b]{0.80\textwidth}
+                        {\color{white} \bfseries \large \insertframetitle}\\[-0.15cm]
+                        {\color{white} \small \insertframesubtitle}
+                    \end{minipage}}%
+                \begin{minipage}[b]{0.20\textwidth}
+                    \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple.pdf}\hspace*{-0.2cm}
+                \end{minipage}
+            \end{beamercolorbox}
+        \fi
+    }
 }
 
-% Task 1: Footline with fixed progress bar
-\setbeamercolor{footline}{bg=lid-main, fg=white}
-\setbeamertemplate{footline}{
-    \ifnum\value{framenumber}>1
-        % Progress bar via \rule — avoids pgfmath/paperwidth conflict
-        \pgfmathsetmacro{\progressratio}{(\insertframenumber - 1) / (\inserttotalframenumber - 1)}
-        \begin{beamercolorbox}[wd=\paperwidth, ht=3pt, dp=0pt]{footline}
-            \textcolor{lid-secondary}{\rule{\progressratio\paperwidth}{3pt}}
-        \end{beamercolorbox}
-        % Footline content
-        \begin{beamercolorbox}[wd=\paperwidth, sep=.5em]{footline}
-            \hspace{.5em}
-            \color{white} \authoroneshort
-            \ifx\authortwoshort\empty\else, \authortwoshort\fi
-            \ifx\authorthreeshort\empty\else, \authorthreeshort\fi
-            \ifx\authorfourshort\empty\else, \authorfourshort\fi
-            \ifx\authorfiveshort\empty\else, \authorfiveshort\fi
-            \hfill \textbf{\color{white} \insertshorttitle} \hfill \color{white} \insertdate \hfill \color{white} \insertframenumber{} / \inserttotalframenumber
-            \hspace{.5em}
-        \end{beamercolorbox}
-    \fi
+% ---- Estilo LIGHT (fundo branco, texto lid-main) ----
+\newcommand{\lidframetitlelight}{%
+    \setbeamercolor{frametitle}{bg=white, fg=lid-main}
+    \setbeamertemplate{frametitle}{
+        \ifx\insertframesubtitle\empty
+            \vspace{-1pt}
+            \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
+                \begin{minipage}[c]{0.80\textwidth}
+                    \vspace{0.2em}
+                    {\color{lid-main} \bfseries \large \insertframetitle}
+                    \vspace{0.5em}
+                \end{minipage}%
+                \begin{minipage}[c]{0.20\textwidth}
+                    \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple-2.pdf}\hspace*{-0.2cm}
+                \end{minipage}
+            \end{beamercolorbox}
+        \else
+            \vspace{-1pt}
+            \begin{beamercolorbox}[wd=\paperwidth, sep=0.5em, left]{frametitle}
+                \raisebox{5pt}{%
+                    \begin{minipage}[b]{0.80\textwidth}
+                        {\color{lid-main} \bfseries \large \insertframetitle}\\[-0.15cm]
+                        {\color{lid-main} \small \insertframesubtitle}
+                    \end{minipage}}%
+                \begin{minipage}[b]{0.20\textwidth}
+                    \hfill\includegraphics[width=1.25cm]{./assets/logo-lid-simple-2.pdf}\hspace*{-0.2cm}
+                \end{minipage}
+            \end{beamercolorbox}
+        \fi
+    }
 }
+
+% ---- Seletor de estilo ----
+% Uso: \lidframetitlestyle{dark}  ou  \lidframetitlestyle{light}
+\newcommand{\lidframetitlestyle}[1]{%
+    \ifstrequal{#1}{dark}{\lidframetitledark}{%
+        \ifstrequal{#1}{light}{\lidframetitlelight}{%
+            \PackageError{lid}{Estilo de frametitle desconhecido: '#1'. Use 'dark' ou 'light'}{}%
+        }}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FOOTLINE — dois estilos alternáveis: dark / light
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ---- Estilo DARK (fundo lid-main, texto branco) ----
+\newcommand{\lidfootlinedark}{%
+    \setbeamercolor{footline}{bg=lid-main, fg=white}
+    \setbeamertemplate{footline}{
+        \ifnum\value{framenumber}>1
+            \pgfmathsetmacro{\progressratio}{(\insertframenumber - 1) / (\inserttotalframenumber - 1)}
+            \begin{beamercolorbox}[wd=\paperwidth, ht=3pt, dp=0pt]{footline}
+                \textcolor{lid-secondary}{\rule{\progressratio\paperwidth}{3pt}}
+            \end{beamercolorbox}
+            \begin{beamercolorbox}[wd=\paperwidth, sep=.5em]{footline}
+                \hspace{.3em}
+                \color{white} \authoroneshort
+                \ifx\authortwoshort\empty\else, \authortwoshort\fi
+                \ifx\authorthreeshort\empty\else, \authorthreeshort\fi
+                \ifx\authorfourshort\empty\else, \authorfourshort\fi
+                \ifx\authorfiveshort\empty\else, \authorfiveshort\fi
+                \hfill \textbf{\color{white} \insertshorttitle} \hfill \color{white} \insertdate \hfill \color{white} \insertframenumber{} / \inserttotalframenumber
+                \hspace{.5em}
+            \end{beamercolorbox}
+        \fi
+    }
+}
+
+% ---- Estilo LIGHT (fundo branco, texto lid-main) ----
+\newcommand{\lidfootlinelight}{%
+    \setbeamercolor{footline}{bg=white, fg=lid-main}
+    \setbeamertemplate{footline}{
+        \ifnum\value{framenumber}>1
+            \begin{beamercolorbox}[wd=\paperwidth, sep=.5em]{footline}
+                \hspace{.3em}
+                \color{lid-main} \authoroneshort
+                \ifx\authortwoshort\empty\else, \authortwoshort\fi
+                \ifx\authorthreeshort\empty\else, \authorthreeshort\fi
+                \ifx\authorfourshort\empty\else, \authorfourshort\fi
+                \ifx\authorfiveshort\empty\else, \authorfiveshort\fi
+                \hfill
+                \textbf{\color{lid-main} \insertshorttitle}
+                \hfill
+                \color{lid-main} \insertdate
+                \hfill
+                \color{lid-main} \insertframenumber{} / \inserttotalframenumber
+                \hspace{.5em}
+            \end{beamercolorbox}
+            \pgfmathsetmacro{\progressratio}{(\insertframenumber - 1) / (\inserttotalframenumber - 1)}
+            \begin{beamercolorbox}[wd=\paperwidth, ht=3pt, dp=0pt]{footline}
+                \textcolor{lid-secondary}{\rule{\progressratio\paperwidth}{3pt}}
+            \end{beamercolorbox}
+        \fi
+    }
+}
+
+% ---- Seletor de estilo ----
+% Uso: \lidfootlinestyle{dark}  ou  \lidfootlinestyle{light}
+\newcommand{\lidfootlinestyle}[1]{%
+    \ifstrequal{#1}{dark}{\lidfootlinedark}{%
+        \ifstrequal{#1}{light}{\lidfootlinelight}{%
+            \PackageError{lid}{Estilo de footline desconhecido: '#1'. Use 'dark' ou 'light'}{}%
+        }}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ESTILOS PADRÃO (a pessoa pode sobrescrever depois de \usepackage{lid})
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lidframetitlestyle{light}
+\lidfootlinestyle{light}
 
 \setbeamertemplate{navigation symbols}{}
 
-% Task 2: Table of contents colors and spacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TABLE OF CONTENTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setbeamercolor{section in toc}{fg=lid-main}
 \setbeamercolor{subsection in toc}{fg=lid-secondary}
 \setbeamerfont{section in toc}{size=\normalsize}
 
-% Section divider slide
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION DIVIDER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \AtBeginSection[]{
     \begin{frame}[plain]
         \begin{tikzpicture}[remember picture, overlay]
@@ -150,31 +267,27 @@
                 \color{white} \usebeamerfont{title} \bfseries \insertsectionhead
             };
             \draw[line width=2pt, color=lid-secondary]
-                ([xshift=2cm, yshift=-0.4cm]current page.center)
+            ([xshift=2cm, yshift=-0.4cm]current page.center)
                 -- ([xshift=-2cm, yshift=-0.4cm]current page.center);
         \end{tikzpicture}
     \end{frame}
 }
 
-% Task 4: Final/thank-you slide
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THANK YOU SLIDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Usage: \lidthanks[Mensagem][contato/links][frase]
-% Todos os argumentos são opcionais.
-% Exemplos:
-%   \lidthanks
-%   \lidthanks[Obrigado!][\faEnvelope\ email@lab.com]
-%   \lidthanks[Obrigado!][\faEnvelope\ email@lab.com \\ \faLinkedin\ linkedin.com/in/user \\ \faGithub\ github.com/user]
-%   \lidthanks[Obrigado!][\faGithub\ github.com/user][Acesse nosso repositório]
 \newcommandx{\lidthanks}[3][1=Obrigado!, 2=, 3=]{%
     \begin{frame}[plain]
         \begin{tikzpicture}[remember picture, overlay]
             \fill[lid-main] (current page.south west) rectangle (current page.north east);
             \node[anchor=north east, xshift=-15pt, yshift=-15pt] at (current page.north east)
-                {\includegraphics[width=1.5cm]{./assets/logo-lid-simple.pdf}};
+            {\includegraphics[width=1.5cm]{./assets/logo-lid-simple.pdf}};
             \node[anchor=center, yshift=0.8cm] at (current page.center) {
                 \color{white} \usebeamerfont{title} \bfseries #1
             };
             \draw[line width=2pt, color=lid-secondary]
-                ([xshift=2cm, yshift=0.3cm]current page.center)
+            ([xshift=2cm, yshift=0.3cm]current page.center)
                 -- ([xshift=-2cm, yshift=0.3cm]current page.center);
             \node[anchor=north, yshift=-0.1cm] at (current page.center) {
                 \begin{minipage}{0.75\paperwidth}
@@ -187,15 +300,9 @@
     \end{frame}
 }
 
-% Task 5: Two-column layout
-% Usage:
-%   \begin{lidtwocol}
-%       Left content
-%   \lidnextcol
-%       Right content
-%   \end{lidtwocol}
-%
-% Optional argument sets left column width ratio (default 0.48)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TWO-COLUMN LAYOUT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{lidtwocol}[1][0.48]{%
     \begin{columns}[T, onlytextwidth]%
     \begin{column}{#1\textwidth}%
@@ -208,7 +315,9 @@
     \begin{column}{#1\textwidth}%
 }
 
-% Task 6: Highlight box
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HIGHLIGHT BOX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Usage: \lidhighlight{Texto importante}
 \newcommand{\lidhighlight}[1]{%
     \begin{tikzpicture}
@@ -223,10 +332,10 @@
     \end{tikzpicture}
 }
 
-% Task 7: Full-screen image slide
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FULL-SCREEN IMAGE SLIDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Usage: \lidfullimage[escala]{caminho/imagem.pdf}{Legenda}
-% Escala vai de 0 a 1 (padrão: 1.0 = tela cheia)
-% Omit caption for no caption bar: \lidfullimage{img.pdf}{}
 \newlength{\lidcaptionheight}
 \setlength{\lidcaptionheight}{1.2cm}
 \newlength{\lidimgmaxh}
@@ -236,21 +345,117 @@
         \begin{tikzpicture}[remember picture, overlay]
             \ifx&#3&
                 \node[anchor=center] at (current page.center)
-                    {\adjustbox{max width=#1\paperwidth, max height=#1\paperheight}{\includegraphics{#2}}};
+                {\adjustbox{max width=#1\paperwidth, max height=#1\paperheight}{\includegraphics{#2}}};
             \else
                 \setlength{\lidimgmaxh}{\paperheight}%
                 \addtolength{\lidimgmaxh}{-\lidcaptionheight}%
                 \node[anchor=south] at ([yshift=\lidcaptionheight]current page.south)
-                    {\adjustbox{max width=#1\paperwidth, max height=#1\lidimgmaxh}{\includegraphics{#2}}};
+                {\adjustbox{max width=#1\paperwidth, max height=#1\lidimgmaxh}{\includegraphics{#2}}};
                 \fill[lid-main]
-                    (current page.south west)
-                    rectangle ([yshift=\lidcaptionheight]current page.south west -| current page.south east);
+                (current page.south west)
+                rectangle ([yshift=\lidcaptionheight]current page.south west -| current page.south east);
                 \node[anchor=south, yshift=0.3cm] at (current page.south) {
                     \color{white} \small \figurename~\thefigure: #3
                 };
             \fi
         \end{tikzpicture}
     \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FULL-SCREEN TABLE SLIDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Usage:
+%   \lidfulltable[escala]{Legenda}{
+%       \begin{tabular}{...} ... \end{tabular}
+%   }
+\newlength{\lidtablecaptionheight}
+\setlength{\lidtablecaptionheight}{1.2cm}
+
+\newcommand{\lidfulltable}[3][1.0]{%
+    \refstepcounter{table}%
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            \node[
+                anchor=center
+            ] at ([yshift=0.6cm]current page.center) {
+                \adjustbox{
+                    max width=#1\paperwidth,
+                    max height=#1\dimexpr\paperheight-\lidtablecaptionheight\relax
+                }{
+                    \begin{minipage}{0.90\paperwidth}
+                        \centering
+                        #3
+                    \end{minipage}
+                }
+            };
+            \fill[lid-main]
+            (current page.south west)
+            rectangle
+                ([yshift=\lidtablecaptionheight]current page.south west -| current page.south east);
+            \node[
+                anchor=south,
+                yshift=0.3cm
+            ] at (current page.south) {
+                \color{white} \small \tablename~\thetable: #2
+            };
+        \end{tikzpicture}
+    \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BLOCK STYLES (via tcolorbox)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{lidblockbox}[1]{
+    enhanced,
+    colback=lid-secondary!8,
+    colframe=lid-secondary,
+    colbacktitle=lid-secondary,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title=#1,
+    rounded corners,
+    boxrule=0pt,
+    frame hidden,
+    left=0.5em, right=0.5em, top=0.3em, bottom=0.3em,
+    toptitle=0.2em, bottomtitle=0.2em
+}
+
+\newtcolorbox{lidalertbox}[1]{
+    enhanced,
+    colback=lid-alert!8,
+    colframe=lid-alert,
+    colbacktitle=lid-alert,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title=#1,
+    rounded corners,
+    boxrule=0pt,
+    frame hidden,
+    left=0.5em, right=0.5em, top=0.3em, bottom=0.3em,
+    toptitle=0.2em, bottomtitle=0.2em
+}
+
+% Usage: \lidblock[largura]{título}{texto}
+\newcommand{\lidblock}[3][0.95]{%
+    \begin{center}
+        \begin{minipage}{#1\textwidth}
+            \begin{lidblockbox}{#2}
+                #3
+            \end{lidblockbox}
+        \end{minipage}
+    \end{center}
+}
+
+% Usage: \lidalert[largura]{título}{texto}
+\newcommand{\lidalert}[3][0.95]{%
+    \begin{center}
+        \begin{minipage}{#1\textwidth}
+            \begin{lidalertbox}{#2}
+                #3
+            \end{lidalertbox}
+        \end{minipage}
+    \end{center}
 }
 
 \endinput
