@@ -349,7 +349,7 @@
             \else
                 \setlength{\lidimgmaxh}{\paperheight}%
                 \addtolength{\lidimgmaxh}{-\lidcaptionheight}%
-                \node[anchor=south] at ([yshift=\lidcaptionheight]current page.south)
+                \node[anchor=center] at ([yshift=\lidcaptionheight]current page.center)
                 {\adjustbox{max width=#1\paperwidth, max height=#1\lidimgmaxh}{\includegraphics{#2}}};
                 \fill[lid-main]
                 (current page.south west)
